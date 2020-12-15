@@ -7,7 +7,13 @@ namespace Softbery.Core.Configuration
 {
     public class Config
     {
-        public string Name { get; set; }
+        public string Section { get; set; }
+        public string Key { get; set; }
         public string Value { get; set; }
+
+        public Config()
+        {
+            
+        }
     }
 }

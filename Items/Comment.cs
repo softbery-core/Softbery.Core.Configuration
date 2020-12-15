@@ -1,39 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Softbery.Core.Configuration.Items
 {
-    public class Comment
+    class Comment
     {
-        private string[] commentsCharDefault = new string[] { ";", "#" };
-        private static string newLine = "\n";
-        public string[] CommentsChar { 
-            get { return commentsCharDefault; } 
-            set { commentsCharDefault = value; } 
-        }
-        public string NewLine = newLine;
-        
         public Comment()
         {
-
-        }
-
-        public IEnumerable<string> RemoveComments(string config_string)
-        {
-            IEnumerable<string> txtLines = config_string.Split(NewLine);
-            foreach (var item in CommentsChar)
-            {
-                txtLines = txtLines.Where(line => !line.StartsWith(item));
-            }
             
-            return txtLines;
         }
 
         public string ConfigWhitoutComments(string config_string)
         {
-            return string.Join(NewLine, RemoveComments(config_string));
+            config_string = RemoveComments(config_string);
+
+            return config_string;
+        }
+
+        private string RemoveComments(string config_string)
+        {
+            string pattern = @"(.*)(\#.*)";
+            //Match match = Regex.Match(config_string, pattern);
+            try
+            {
+                config_string = Regex.Replace(config_string, pattern, "");
+                return config_string;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }
